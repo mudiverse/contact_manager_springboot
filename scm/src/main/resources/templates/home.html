@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" data-th-href="@{'/css/output.css'}"/>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class=" container bg-gray-200 w-1/2 p-4 mx-auto mt-4 rounded">
+        <h1 data-th-text="${name}" class="text-2 font bold" >Welcome to SCM Application</h1>
+        <p data-th-text="${YoutubeChannel}" class="text-xl text-gray-700"></p>
+        <p data-th-text="${gitHub}"></p>
+        <a href="/login">Login</a>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, blanditiis. Quis, officia quisquam laborum facere est maxime odit eligendi aut ad ipsum cumque, nobis placeat! Assumenda culpa perferendis animi maiores.</p>
+
+        <button class="px-3 py-3 rounded bg-blue-700 text-white hover:bg-blue-800">Cick Here</button>
+    </div>
+    <!--flowbite content -->
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+</body>
+</html>
