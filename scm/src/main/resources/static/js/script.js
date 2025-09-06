@@ -13,6 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
             changePageTheme(newTheme);
         });
     }
+
+    // Initialize Flowbite components
+    if (typeof window.initFlowbite === 'function') {
+        window.initFlowbite();
+    }
 });
 
 // Save theme
