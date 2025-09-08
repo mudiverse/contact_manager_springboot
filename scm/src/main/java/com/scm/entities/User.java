@@ -6,6 +6,8 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -50,6 +52,7 @@ public class User {
     private boolean phoneVerified=false;
 
     //SELf , google, github,Faceook -> kis provider
+    @Enumerated(value = EnumType.STRING)
     private Providers provider = Providers.SELF; 
     private String providerId; 
 
