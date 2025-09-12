@@ -1,5 +1,6 @@
 package com.scm.services.impl;
 
+import com.scm.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,12 +15,16 @@ public class SecurityCustomUserDetailsService implements UserDetailsService {
     private UserRepo userRepo;
     
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         //kuch nahi bas apne user ko db se fetch krna hai
-        return userRepo.findByEmail(username)
-        .orElseThrow(()->new UsernameNotFoundException("User with email "+username+" not found"));
-       
+        User user= userRepo.findByEmail(email)
+        .orElseThrow(()->new UsernameNotFoundException("User with email "+email+" not found"));
+
+        return org.springframework.security.core.userdetails.User
+            .withUsername(user.getEmail())
+            .password(user.getPassword())
+            .build();
     }
     
 }
