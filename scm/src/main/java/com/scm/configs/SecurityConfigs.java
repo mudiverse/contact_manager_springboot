@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -45,8 +46,22 @@ public class SecurityConfigs {
     
         //form defaul login
         //agar kuch change karna hua to ham yaha aanege and :form login ka config karenge
-        httpSecurity.formLogin(Customizer.withDefaults());
+        httpSecurity.formLogin(formLogin->{
+            //apna login page
+            formLogin.loginPage("/login");
+            formLogin.loginProcessingUrl("/authenticate");
+            formLogin.successForwardUrl("/user/dashboard");
+            // formLogin.failureForwardUrl("/login?error=true");
+            formLogin.usernameParameter("email");
+            formLogin.passwordParameter("password");
+        });
 
+        //logout configuration
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.logout(logout->{
+            logout.logoutUrl("/do-logout");
+            logout.logoutSuccessUrl("/login?logout=true");
+        });
 
         return httpSecurity.build();
         

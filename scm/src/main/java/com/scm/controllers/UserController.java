@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
     //dashboard page
-    @RequestMapping(value = "/dashboard", method=RequestMethod.GET) 
+    @RequestMapping(value = "/dashboard") 
     public String userDashboard(){
         System.out.println("User Dashboard page");
         return "user/dashboard";
     }
 
-        @RequestMapping(value = "/profile", method=RequestMethod.GET) 
+    @RequestMapping(value = "/profile") 
     public String userProfile(){
         System.out.println("User Profile page");
         return "user/profile";

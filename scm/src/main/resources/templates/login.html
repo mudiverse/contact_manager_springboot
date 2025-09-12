@@ -7,10 +7,76 @@
 <body>
 
     <div id="content">
-        <h1>Welcome to Login Page</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, dignissimos?</p>
+        <div class="flex justify-center items-center px-4 py-8">
+            <div class="w-full max-w-md">
+                <!-- Centered form container -->
+                <div 
+                    class="block p-6 bg-white border-t-[10px] border-green-700 rounded-xl shadow-sm  dark:bg-gray-800 dark:border-blue-700">
+                    <!-- message -->
+                     <div data-th-replace="message::messagebox"></div>
+
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Login Here</h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Start your journey with Smart Contacts
+                        Manager on cloud.
+                    </p>
+                   
+                     <div class="text-red-600 text-center my-3" th:if="${param.error}">
+                        Invalid username and password.</div>
+                    <div class="text-green-600 text-center my-3" th:if="${param.logout}">
+                        You have been logged out.</div>
+                    
+
+                    <form 
+                    method="post"
+                    data-th-action="@{'/authenticate'}"
+                     class="mt-3"
+                     novalidate>
+                        
+                        <!-- user name /email -->
+                        <div class="mb-3">
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                email</label>
+                            <input 
+                            name="email"
+                            type="email" 
+                            id="email" 
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Enter email" required />
+                                <!-- <p data-th-if="${#fields.hasErrors('email')}"
+                            data-th-errors="*{email}"
+                            class="text-red-600 px-1 py-2"></p>   -->
+                        </div>
+                        <!-- password -->
+                        <div class="mb-3">
+                            <label for="password"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
+                                Password</label>
+                            <input 
+                            name="password"
+                            type="password" 
+                            id="password"
+                           
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required />
+                                <!-- <p data-th-if="${#fields.hasErrors('password')}"
+                            data-th-errors="*{password}"
+                            class="text-red-600 px-1 py-2"></p>   -->
+                        </div>
+                        
+                        <!-- signup button -->
+                         <div class="mb-3 justify-center flex space-x-3">
+                            <button type="submit" class="px-3 py-2 rounded bg-gray-800 hover:bg-gray text-white dark:bg-blue-800 dark:hover:bg-blue-800">Login</button>
+                            <button type="reset" class="px-3 py-2 rounded bg-blue-800  hover:bg-blue  text-white dark:bg-blue-800 dark:hover-blue-800">Reset</button>
+                         </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
     </div>
-    <script>
+   
+   <script>
         console.log("This is login page");
     </script>
     
