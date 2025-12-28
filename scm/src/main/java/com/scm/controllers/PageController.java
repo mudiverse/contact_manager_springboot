@@ -88,6 +88,7 @@ public class PageController {
         System.out.println(userForm);
         //validate the form data
         //TODO:validate
+        
         if(bindingResult.hasErrors()){
             return "register"; //agar error hai to wapis register page pr chala jayega
         }

@@ -47,7 +47,7 @@ public class User implements UserDetails{
     @Column(length = 5000)
     private String about;
 
-    @Column(length = 1000)
+    @Column(length = 6000)
     private String profilePic;
 
     private String phoneNumber;

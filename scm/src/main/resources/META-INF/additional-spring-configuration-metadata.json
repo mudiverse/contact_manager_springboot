@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "spring.security.outh2.client.registration.google.client-secret",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.security.outh2.client.registration.google.client-secret'"
+  },
+  {
+    "name": "spring.security.outh2.client.registration.google.scope",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.security.outh2.client.registration.google.scope'"
+  }
+]}

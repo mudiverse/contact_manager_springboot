@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+th:replace="~{base::parent(~{::content}, ~{::title}, ~{::script})}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title data-th-text="${loggedInUser.name} + ' - Profile'">Profile Page</title>
 </head>
 <body>
-    <h1> User Profile</h1>
+    <th:block th:fragment="title">
+        <title data-th-text="${loggedInUser.name} + ' - Profile'">Profile Page</title>
+    </th:block>
+    <div data-th-fragment="content" >
+        <!-- sidebar -->
+         <div th:if="${loggedInUser}">
+            <div data-th-replace="~{user/sidebar :: sidebar}"></div>
+         </div>
+
+
+
+
+    <div class="sm:pl-64 pt-20">
+        <h1 class="text-5xl">welcome to profile page</h1>
+       
+    </div>
+    </div>
+    <th:block th:fragment="script">
+        <script>
+            console.log("Profile Page");
+        </script>
+    </th:block>
 </body>
 </html>

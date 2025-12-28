@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +19,8 @@ public class SecurityConfigs {
     
     @Autowired
     private SecurityCustomUserDetailsService userDetailsService;
+    @Autowired
+    private Oauth2AuthenticationSuccessHandler handler;
     
     //cofig od authentication provider
     @SuppressWarnings("deprecation")
@@ -44,13 +45,13 @@ public class SecurityConfigs {
             auth.anyRequest().permitAll();
         });
     
-        //form defaul login
+        //form default login
         //agar kuch change karna hua to ham yaha aanege and :form login ka config karenge
         httpSecurity.formLogin(formLogin->{
             //apna login page
             formLogin.loginPage("/login");
             formLogin.loginProcessingUrl("/authenticate");
-            formLogin.successForwardUrl("/user/dashboard");
+            formLogin.successForwardUrl("/user/profile");
             // formLogin.failureForwardUrl("/login?error=true");
             formLogin.usernameParameter("email");
             formLogin.passwordParameter("password");
@@ -62,6 +63,13 @@ public class SecurityConfigs {
             logout.logoutUrl("/do-logout");
             logout.logoutSuccessUrl("/login?logout=true");
         });
+
+        //oauth2 login configuration
+        httpSecurity.oauth2Login(oauth->{
+            oauth.loginPage("/login");
+            oauth.successHandler(handler);
+        });
+
 
         return httpSecurity.build();
         

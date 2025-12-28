@@ -17,6 +17,7 @@ public interface UserService {
     //list of all useres
     List<User> getAllUsers();
 
+    User getUserByEmail(String email);
     //TODO: add more user related business logic methods if needed
 
 
