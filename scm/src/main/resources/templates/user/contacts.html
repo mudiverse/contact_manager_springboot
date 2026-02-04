@@ -1,0 +1,179 @@
+<!-- page to load all the contacts of a user -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::parent(~{::content}, ~{::title}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts Page</title>
+</head>
+
+<body>
+    <th:block th:fragment="title">
+        <title>Contacts Page</title>
+    </th:block>
+    <div data-th-fragment="content">
+        <!-- sidebar -->
+        <div th:if="${loggedInUser}">
+            <!-- <div data-th-replace="~{user/sidebar :: sidebar}"></div> -->
+        </div>
+
+        <div class="ml-64 pt-20 flex justify-center">
+            <div class="w-full max-w-6xl">
+                <h1 class="text-5xl text-center">welcome to Contacts page</h1>
+                <div class="contac_container p-5">
+
+                    <div
+                        class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+                        <div
+                            class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4">
+                            <div>
+                                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+                                    class="inline-flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-3 py-2 focus:outline-none"
+                                    type="button">
+                                    Action
+                                    <svg class="w-4 h-4 ms-1.5 -me-0.5" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                        viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m19 9-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                <!-- Dropdown menu -->
+                                <div id="dropdown"
+                                    class="z-10 hidden bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-32">
+                                    <ul class="p-2 text-sm text-body font-medium"
+                                        aria-labelledby="dropdownDefaultButton">
+                                        <li>
+                                            <a href="#"
+                                                class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Reward</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                                class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Promote</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                                class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Archive</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                                class="inline-flex items-center w-full p-2 text-fg-danger hover:bg-neutral-tertiary-medium rounded">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <label for="input-group-1" class="sr-only">Search</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                            d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="input-group-1"
+                                    class="block w-full max-w-96 ps-9 pe-3 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+                                    placeholder="Search">
+                            </div>
+                        </div>
+                        <table class="w-full text-sm text-left rtl:text-right text-body">
+                            <thead
+                                class="text-sm text-body bg-neutral-secondary-medium border-b border-t border-default-medium">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 font-medium">
+                                        Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 font-medium">
+                                        Phone
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 font-medium">
+                                        Links
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 font-medium">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-th-object="${c}" data-th-each="c : ${pageContacts.getContent()}"
+                                    class="bg-neutral-primary-soft border-b border-default hover:bg-neutral-secondary-medium">
+                                    <th scope="row" class="flex items-center px-6 py-4 text-heading whitespace-nowrap">
+                                        <img onerror="this.src='https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png'"
+                                            class="w-10 h-10 rounded-full" data-th-src="${c.picture}"
+                                            alt="Contact image">
+                                        <div class="ps-3">
+                                            <div data-th-text="*{name}" class="text-base font-semibold">Neil Sims</div>
+                                            <div class="font-normal text-body" data-th-text="*{email}">
+                                                neil.sims@flowbite.com</div>
+                                        </div>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <i class="fa-solid fa-phone h-4 w-4 "></i>
+                                        <span data-th-text="*{phonenumber}"> </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div data-th-if="*{favourite}"
+                                                class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
+                                            <a data-th-href="@{*{websiteLink}}" target="_blank"> <i
+                                                    class="fa-solid fa-link h-6 w-6"></i></a>
+                                            <a data-th-href="@{*{linkedInLink}}" target="_blank"> <i
+                                                    class="fa-brands fa-linkedin h-6 w-6"></i></a>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div>
+                                            <a href=""><i class="fa-solid fa-trash  h-6 w-6 "></i></a>
+                                            <a href=""><i class="fa-solid fa-pen h-6 w-6 "></i></a>
+                                            <a href=""><i class="fa-solid fa-eye h-6 w-6 "></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <!-- pagination component -->
+                        <div class="pagination_container p-5 text-center flex justify-center dark:bg-gray-700">
+                            <nav aria-label="Page navigation example">
+                                <ul class="flex -space-x-px text-sm">
+                                    <li data-th-unless="${pageContacts.first}">
+                                        <a 
+                                        data-th-href="@{'/user/contacts?size='+${pageSize}+'&page='+${pageContacts.number-1}}"
+                                        href="#"
+                                            class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-s-base text-sm px-3 h-10 focus:outline-none">Previous</a>
+                                    </li>
+                                    <li data-th-each="index: ${#numbers.sequence(0,pageContacts.totalPages-1)}" >
+                                        <a
+                                        data-th-href="@{'/user/contacts?size='+${pageSize}+'&page='+${index}}"
+                                        data-th-classappend="${index==pageContacts.number ? 'bg-blue-50 dark:bg-gray-800':'bg-white dark:bg-gray-600'}"
+                                        href="#"
+                                            class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none">
+                                            <span data-th-text="${index+1}"></span>
+                                        </a>
+                                    </li>
+                                    <li data-th-unless="${pageContacts.last}">
+                                        <a 
+                                        data-th-href="@{'/user/contacts?size='+${pageSize}+'&page='+${pageContacts.number+1}}"
+                                        
+                                        href="#"
+                                            class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-e-base text-sm px-3 h-10 focus:outline-none">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <th:block th:fragment="script">
+        <script>
+            console.log("Contacts Page");
+        </script>
+    </th:block>
+</body>
+
+</html>
