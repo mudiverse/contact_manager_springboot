@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.scm.entities.Contacts;
+import com.scm.entities.User;
 
 public interface ContactService {
 
@@ -26,9 +27,9 @@ public interface ContactService {
     void deleteContact(String id);
 
     //search contacts by name, email or phone number
-    Page<Contacts>searchByName(String name, int size, int page, String sortBy, String sortDir);
-    Page<Contacts>searchByEmail(String email, int size, int page, String sortBy, String sortDir);
-    Page<Contacts>searchByPhone(String phone, int size, int page, String sortBy, String sortDir);
+    Page<Contacts>searchByName(String name, int size, int page, String sortBy, String sortDir,User User);
+    Page<Contacts>searchByEmail(String email, int size, int page, String sortBy, String sortDir,User User);
+    Page<Contacts>searchByPhone(String phone, int size, int page, String sortBy, String sortDir,User User);
     
     //get contacets by user id
     List<Contacts>getContactsByUserId(String userId);

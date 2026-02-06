@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.scm.entities.Contacts;
 import com.scm.entities.User;
 import com.scm.forms.ContactForm;
+import com.scm.forms.ContactSearchForm;
 import com.scm.helpers.AppConstants;
 import com.scm.helpers.Helper;
 import com.scm.helpers.Message;
@@ -119,6 +120,7 @@ public class ContactController {
 
         model.addAttribute("pageContacts", pageContacts);
         model.addAttribute("pageSize",AppConstants.PAGE_SIZE);
+        model.addAttribute("contactSearchForm", new ContactSearchForm());
         //the above code gets all contacts of the logged in user and adds them to the model
         // adding to model means we can access it in the view (html page)
         return "user/contacts";
@@ -126,29 +128,33 @@ public class ContactController {
 
     //searchbar handler method
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String searchHandler(@RequestParam("field") String field,     
-    @RequestParam("keyword") String keyword, 
+    public String searchHandler(
+        @ModelAttribute ContactSearchForm contactSearchForm,
     @RequestParam(value="page",defaultValue = "0") int page , 
         @RequestParam(value = "size",defaultValue = AppConstants.PAGE_SIZE+"") int size ,
         @RequestParam(value = "sortBy",defaultValue = "name") String sortBy ,
         @RequestParam(value = "sortDir",defaultValue = "asc") String sortDir,
-    Model model){
+    Model model ,Authentication authentication){
         
-        logger.info("Search field: " + field);
-        logger.info("Search keyword: " + keyword);
-        
+        logger.info("Search field: " + contactSearchForm.getField());
+        logger.info("Search keyword: " + contactSearchForm.getValue());
+
+        var  user = userService.getUserByEmail(Helper.getEmailOfLoggedInUser(authentication));
+
         Page<Contacts> pageContacts =null;
-        if(field.equalsIgnoreCase("name")){
-           pageContacts = contactService.searchByName(keyword, size, page, sortBy, sortDir);
+        if(contactSearchForm.getField().equalsIgnoreCase("name")){
+           pageContacts = contactService.searchByName(contactSearchForm.getValue(), size, page, sortBy, sortDir,user);
         }
-        else if(field.equalsIgnoreCase("email")){
-            pageContacts = contactService.searchByEmail(keyword, size, page, sortBy, sortDir);
-        }else if(field.equalsIgnoreCase("phone")){
-            pageContacts = contactService.searchByPhone(keyword, size, page, sortBy, sortDir);
+        else if(contactSearchForm.getField().equalsIgnoreCase("email")){
+            pageContacts = contactService.searchByEmail(contactSearchForm.getValue(), size, page, sortBy, sortDir,user);
+        }else if(contactSearchForm.getField().equalsIgnoreCase("phone")){
+            pageContacts = contactService.searchByPhone(contactSearchForm.getValue(), size, page, sortBy, sortDir,user);
         }
         
         logger.info("pageContacts: " + pageContacts);
         model.addAttribute("pageContacts", pageContacts);
+        model.addAttribute("contactSearchForm", contactSearchForm);
+        model.addAttribute("pageSize",AppConstants.PAGE_SIZE);
 
         return "user/search";
     }
