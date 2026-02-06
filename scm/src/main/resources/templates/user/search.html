@@ -1,16 +1,15 @@
-<!-- page to load all the contacts of a user -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::parent(~{::content}, ~{::title}, ~{::script})}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacts Page</title>
+    <title data-th-text="${loggedInUser.name} + ' - Search'">Search Page</title>
 </head>
 
 <body>
     <th:block th:fragment="title">
-        <title>Contacts Page</title>
+        <title data-th-text="${loggedInUser.name} + ' - Dashboard'">Search Page</title>
     </th:block>
     <div data-th-fragment="content">
         <!-- sidebar -->
@@ -18,10 +17,12 @@
             <!-- <div data-th-replace="~{user/sidebar :: sidebar}"></div> -->
         </div>
 
-        <div class="ml-64 pt-20 flex justify-center">
-            <div class="w-full max-w-6xl">
-                <h1 class="text-5xl text-center">welcome to Contacts page</h1>
-                <div class="contacts_container p-5">
+        <div class="sm:pl-64 pt-20 " style="height: 1000px">
+            <div>
+                <h1 class="text-5xl">welcome to Search page</h1>
+            </div>
+
+            <div class="contacts_container p-5">
                     <div
                         class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
                         <!-- search bar form  -->
@@ -146,13 +147,11 @@
                     </div>
 
                 </div>
-            </div>
-
         </div>
     </div>
     <th:block th:fragment="script">
         <script>
-            console.log("Contacts Page");
+            console.log("Dashboard Page");
         </script>
     </th:block>
 </body>

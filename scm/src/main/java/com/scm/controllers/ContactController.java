@@ -123,4 +123,35 @@ public class ContactController {
         // adding to model means we can access it in the view (html page)
         return "user/contacts";
     }
+
+    //searchbar handler method
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String searchHandler(@RequestParam("field") String field,     
+    @RequestParam("keyword") String keyword, 
+    @RequestParam(value="page",defaultValue = "0") int page , 
+        @RequestParam(value = "size",defaultValue = AppConstants.PAGE_SIZE+"") int size ,
+        @RequestParam(value = "sortBy",defaultValue = "name") String sortBy ,
+        @RequestParam(value = "sortDir",defaultValue = "asc") String sortDir,
+    Model model){
+        
+        logger.info("Search field: " + field);
+        logger.info("Search keyword: " + keyword);
+        
+        Page<Contacts> pageContacts =null;
+        if(field.equalsIgnoreCase("name")){
+           pageContacts = contactService.searchByName(keyword, size, page, sortBy, sortDir);
+        }
+        else if(field.equalsIgnoreCase("email")){
+            pageContacts = contactService.searchByEmail(keyword, size, page, sortBy, sortDir);
+        }else if(field.equalsIgnoreCase("phone")){
+            pageContacts = contactService.searchByPhone(keyword, size, page, sortBy, sortDir);
+        }
+        
+        logger.info("pageContacts: " + pageContacts);
+        model.addAttribute("pageContacts", pageContacts);
+
+        return "user/search";
+    }
+
+
 }
