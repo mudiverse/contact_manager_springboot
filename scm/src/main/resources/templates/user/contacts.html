@@ -18,12 +18,15 @@
             <!-- <div data-th-replace="~{user/sidebar :: sidebar}"></div> -->
         </div>
 
-        <div class="ml-64 pt-20 flex justify-center">
+        <div class="ml-64 pt-20 flex">
             <div class="w-full max-w-6xl">
                 <h1 class="text-5xl text-center">welcome to Contacts page</h1>
                 <div class="contacts_container p-5">
                     <div
                         class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+                        <div data-th-replace="~{message::messagebox}">
+
+                        </div>
                         <!-- search bar form  -->
                         <form 
                             data-th-object="${contactSearchForm}" 
@@ -114,9 +117,14 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <div>
-                                            <a href=""><i class="fa-solid fa-trash  h-6 w-6 "></i></a>
-                                            <a href=""><i class="fa-solid fa-pen h-6 w-6 "></i></a>
-                                            <a href=""><i class="fa-solid fa-eye h-6 w-6 "></i></a>
+                                            <!-- <a data-th-href="@{'/user/contacts/delete/'+*{id}}"><i class="fa-solid fa-trash  h-6 w-6 "></i></a> -->
+
+                                            <button data-th-onclick="deleteContact([[${c.id}]])"><i class="fa-solid fa-trash  h-6 w-6 "></i></button>
+                                            
+                                             <button href=""><i class="fa-solid fa-pen h-6 w-6 "></i></button>
+                                            
+                                            <button data-th-onclick="loadContactData([[${c.id}]])">
+                                                <i class="fa-solid fa-eye h-6 w-6 "></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -156,8 +164,11 @@
                 </div>
             </div>
 
+            <div data-th-replace="~{user/contact_modal ::contact}"></div>
+
         </div>
     </div>
+    <script  data-th-src="@{'/js/view_contact.js'}"></script>
     <th:block th:fragment="script">
         <script>
             console.log("Contacts Page");

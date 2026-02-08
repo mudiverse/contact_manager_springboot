@@ -4,6 +4,8 @@ package com.scm.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +47,7 @@ public class Contacts {
 
     //mapping
     @ManyToOne
+    @JsonIgnore
     private User user;
     //1 to many mapping with social links
     @OneToMany(mappedBy = "contact",cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true)
