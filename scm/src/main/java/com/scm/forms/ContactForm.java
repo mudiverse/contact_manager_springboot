@@ -36,4 +36,5 @@ public class ContactForm {
     
     @ValidFile
     private MultipartFile contactImage;  // process the uploaded file
+    private String picture;
 }

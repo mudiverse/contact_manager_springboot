@@ -11,8 +11,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,11 +83,7 @@ public class ContactController {
         
         //processing the contact picture here
 
-        //file upload krne ka code 
-        String filename = UUID.randomUUID().toString();
-        String fileURL = imageService.uploadImage(contactForm.getContactImage(),filename);  
-        
-
+       
         Contacts contact = new Contacts();
         //form se data lekr entity me set krna
         contact.setName(contactForm.getName());
@@ -97,9 +95,19 @@ public class ContactController {
         contact.setUser(user); // indicates which user this contact belongs to 
         contact.setLinkedInLink(contactForm.getLinkedInLink());
         contact.setWebsiteLink(contactForm.getWebsiteLink());
+        
         //set the contact picture
-        contact.setPicture(fileURL); //url will be stored in db
-        contact.setCloudinaryImagePublicId(filename);
+        if(contactForm.getContactImage()!=null && !contactForm.getContactImage().isEmpty()){
+             //file upload krne ka code 
+            String filename = UUID.randomUUID().toString();
+            
+            String fileURL = imageService.uploadImage(contactForm.getContactImage(),filename);  
+        
+
+            contact.setPicture(fileURL); //url will be stored in db
+            contact.setCloudinaryImagePublicId(filename);
+        }
+        
 
         contactService.saveContact(contact);
         session.setAttribute("message",Message.builder().content("Contacts Added Successfully!").type(MessageType.green).build());
@@ -172,5 +180,65 @@ public class ContactController {
         );
 
         return "redirect:/user/contacts";
+    }
+
+    @GetMapping("/view/{contactId}")
+    public String updateContactFormView(@PathVariable String contactId , Model model){
+
+        var contact = contactService.getContactById(contactId);
+        ContactForm contactForm = new ContactForm();
+        contactForm.setName(contact.getName());
+        contactForm.setEmail(contact.getEmail());
+        contactForm.setPhonenumber(contact.getPhonenumber());
+        contactForm.setAddress(contact.getAddress());
+        contactForm.setDescription(contact.getDescription());
+        contactForm.setFavourite(contact.isFavourite());
+        contactForm.setLinkedInLink(contact.getLinkedInLink());
+        contactForm.setWebsiteLink(contact.getWebsiteLink());
+        contactForm.setPicture(contact.getPicture());
+
+        model.addAttribute("contactForm", contactForm);
+        model.addAttribute("contactId", contactId);
+
+        return "user/update_contact_view";
+    }
+
+    @RequestMapping(value = "/update/{contactId}",method = RequestMethod.POST)
+    public String updateContact(@PathVariable String contactId,@Valid @ModelAttribute ContactForm contactForm,Model model,
+        BindingResult bindingResult
+    ){
+        if(bindingResult.hasErrors()){
+            return "user/update_contact_view";
+        }
+
+        //update the contat in db
+        var contact = contactService.getContactById(contactId);
+        
+        contact.setId(contactId);
+        contact.setName(contactForm.getName());
+        contact.setEmail(contactForm.getEmail());
+        contact.setPhonenumber(contactForm.getPhonenumber());
+        contact.setAddress(contactForm.getAddress());
+        contact.setDescription(contactForm.getDescription());
+        contact.setFavourite(contactForm.isFavourite());
+        contact.setLinkedInLink(contactForm.getLinkedInLink());
+        contact.setWebsiteLink(contactForm.getWebsiteLink());
+        
+        //process image 
+        if(contactForm.getContactImage()!=null && !contactForm.getContactImage().isEmpty()){
+            String filename = UUID.randomUUID().toString();
+            String imgURL= imageService.uploadImage(contactForm.getContactImage(), filename);
+            contact.setCloudinaryImagePublicId(filename);
+            contact.setPicture(imgURL);
+            contactForm.setPicture(imgURL);
+        }else{
+            logger.info("file is empty");
+        }
+
+
+        var updatedCon = contactService.update(contact); //passs a contact to the func
+        model.addAttribute("message", Message.builder().content("Contact Updated").type(MessageType.green));
+
+        return "redirect:/user/contacts/view/"+contactId;
     }
 }

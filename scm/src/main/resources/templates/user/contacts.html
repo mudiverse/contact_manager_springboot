@@ -118,12 +118,15 @@
                                     <td class="px-6 py-4">
                                         <div>
                                             <!-- <a data-th-href="@{'/user/contacts/delete/'+*{id}}"><i class="fa-solid fa-trash  h-6 w-6 "></i></a> -->
-
+                                            <!-- del contact button  -->
                                             <button data-th-onclick="deleteContact([[${c.id}]])"><i class="fa-solid fa-trash  h-6 w-6 "></i></button>
                                             
-                                             <button href=""><i class="fa-solid fa-pen h-6 w-6 "></i></button>
+                                            <!-- update contact button -->
                                             
-                                            <button data-th-onclick="loadContactData([[${c.id}]])">
+                                            <a data-th-href="@{'/user/contacts/view/'+*{id}}"><i class="fa-solid fa-pen h-6 w-6 "></i></a>
+                                            
+                                            <!-- view contact button  -->
+                                             <button data-th-onclick="loadContactData([[${c.id}]])">
                                                 <i class="fa-solid fa-eye h-6 w-6 "></i></button>
                                         </div>
                                     </td>
